@@ -10,6 +10,7 @@ Route::middleware('auth:sanctum')
         Route::controller(ShopController::class)
             ->prefix('shops')
             ->group(function () {
+                Route::post('', 'create')->name('shops.create');
                 Route::post('near-to-postcode', 'nearToPostCode')->name('shops.near_to_postcode');
                 Route::post('will-deliver-to-postcode', 'willDeliverToPostCode')->name('shops.will_deliver_to_postcode');
             });
