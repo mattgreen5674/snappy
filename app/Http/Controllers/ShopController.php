@@ -10,7 +10,6 @@ use App\Models\PostCode;
 use App\Models\Shop;
 use Exception;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Support\Str;
 use Symfony\Component\HttpFoundation\Response as HttpStatuses;
@@ -41,7 +40,7 @@ class ShopController extends Controller
         }
 
         try {
-            $distance    = $request->distance ?? config('snappy.app.default.model.shop.distance.default_max');
+            $maxDistance = $request->distance ?? config('snappy.app.default.model.shop.distance.default_max');
             $distanceArr = [
                 (config('snappy.app.default.model.shop.distance.radius_of_earth_in_miles') *  config('snappy.app.default.model.shop.distance.metres_per_mile')), // radius of earth in metres
                 $postCode->latitude,
@@ -51,7 +50,7 @@ class ShopController extends Controller
             $distanceAlgorythm = '(? * acos(cos(radians(?)) * cos(radians(latitude)) * cos(radians(longitude) - radians(?)) + sin(radians(?)) * sin(radians(latitude))))'; // haversine algorythm
 
             $shops = Shop::selectRaw('shops.*, ' . $distanceAlgorythm . ' as distance_from', $distanceArr)
-                ->whereRaw($distanceAlgorythm . ' <= ' . $distance, $distanceArr)
+                ->whereRaw($distanceAlgorythm . ' <= ' . $maxDistance, $distanceArr)
                 ->orderBy('distance_from')
                 ->limit(100) // limited for testing
                 ->get();
