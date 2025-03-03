@@ -2,6 +2,7 @@
 
 namespace App\Console\Commands;
 
+use App\Jobs\ImportPostcodes;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Storage;
@@ -66,6 +67,41 @@ class ImportPostcodesFromCsv extends Command
             info('Successfully extracted downloaded files from .zip');
         } else {
             info('Failed to extract downloaded files from .zip');
+        }
+
+        // Extract the postcodes and batch them into jobs for processing into the DB
+        $filepath = $extractToPath . '/Data/ONSPD_NOV_2022_UK.csv'; // Again how are we expecting to know about and manage file changes?
+        $file = fopen($filepath, 'r');
+        if ($file !== false) {
+            $chunk = collect();
+            
+            // Skip the first line (header row)
+            fgetcsv($file);  // This reads and discards the first line
+
+            info ('Started batching postcode data into jobs');
+            while ($line = fgetcsv($file, 1000)) {
+
+                $chunk->push([
+                    'postcode'  => $line[0],
+                    'latitude'  => $line[42],
+                    'longitude' => $line[43],
+                ]);
+
+                if ($chunk->count() == 10000) {
+                    ImportPostcodes::dispatch($chunk)->delay(now()->addMinutes(10));
+                    $chunk = collect();
+                }
+            }
+
+            // Process the final rows when they total less than 10,000 
+            if ($chunk->isNotEmpty()) {
+                ImportPostcodes::dispatch($chunk)->delay(now()->addMinutes(10));
+            }
+
+            info('Finished batching postcode data into jobs');
+        } else {
+            info('Failed to open downloaded postcodes file');
+            // Log error with monitoring system
         }
 
         info('Remove postcodes directory after import');

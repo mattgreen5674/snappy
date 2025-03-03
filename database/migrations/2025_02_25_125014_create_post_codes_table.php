@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('post_codes', function (Blueprint $table) {
             $table->id();
-            $table->string('post_code', 8);
+            $table->string('post_code', 8)->index();
             $table->decimal('latitude', 12, 10);  // -90 -> 90 = 90.0123456789
             $table->decimal('longitude', 13, 10); // -180 -> 180 = 180.0123456789
             $table->timestamps();
