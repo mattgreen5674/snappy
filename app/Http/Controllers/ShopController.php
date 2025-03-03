@@ -47,10 +47,10 @@ class ShopController extends Controller
                 $postCode->longitude,
                 $postCode->latitude,
             ];
-            $distanceAlgorythm = '(? * acos(cos(radians(?)) * cos(radians(latitude)) * cos(radians(longitude) - radians(?)) + sin(radians(?)) * sin(radians(latitude))))'; // haversine algorythm
+            $distanceAlgorithm = '(? * acos(cos(radians(?)) * cos(radians(latitude)) * cos(radians(longitude) - radians(?)) + sin(radians(?)) * sin(radians(latitude))))'; // haversine algorythm
 
-            $shops = Shop::selectRaw('shops.*, ' . $distanceAlgorythm . ' as distance_from', $distanceArr)
-                ->whereRaw($distanceAlgorythm . ' <= ' . $maxDistance, $distanceArr)
+            $shops = Shop::selectRaw('shops.*, ' . $distanceAlgorithm . ' as distance_from', $distanceArr)
+                ->whereRaw($distanceAlgorithm . ' <= ' . $maxDistance, $distanceArr)
                 ->orderBy('distance_from')
                 ->limit(100) // limited for testing
                 ->get();

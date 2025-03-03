@@ -1,66 +1,144 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+Picniq Tickets API
+=================
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+# Getting started
 
-## About Laravel
+This application leverages Laravel's Sail (Docker) to provision the development environment: <https://laravel.com/docs/11.x/sail>
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+!!! IMPORTANT !!!
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+1) Copy the .env.example file to create your .env file and update with relevant database access information or ask another developer for a copy of their env file for this project to save you having to configure it all.
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+---
 
-## Learning Laravel
+Open a terminal window and navigate to the project folder.
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+You must now install composer all of the dependencies including Laravel and Sail.
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+```
+docker run --rm \
+    -u "$(id -u):$(id -g)" \
+    -v "$(pwd):/var/www/html" \
+    -w /var/www/html \
+    laravelsail/php83-composer:latest \
+    composer install --ignore-platform-reqs
+```
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+If you have not setup sail before, run the following in the terminal to setup an alias:
 
-## Laravel Sponsors
+```
+sudo alias sail='[ -f sail ] && sh sail || sh vendor/bin/sail'
+```
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+Close and re-open your terminal window to ensure the above has taken effect.
 
-### Premium Partners
+All Sail commands should be executed from the project root on the host machine.
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[WebReinvent](https://webreinvent.com/)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Jump24](https://jump24.co.uk)**
-- **[Redberry](https://redberry.international/laravel/)**
-- **[Active Logic](https://activelogic.com)**
-- **[byte5](https://byte5.de)**
-- **[OP.GG](https://op.gg)**
+To start the containers (this will build the containers for the first time):
 
-## Contributing
+```
+sail up -d
+```
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+To stop and remove the containers:
 
-## Code of Conduct
+```
+sail down
+```
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+If you make changes to the containers and need to rebuild them:
 
-## Security Vulnerabilities
+```
+sail build
+```
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+# Getting the project ready
 
-## License
+Set up the data base:
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+```
+sail php artisan migrate --seed
+```
+
+At present the DatabaseSeeder.php will create a user and some basic shops.  If wanted to have a few post codes to get going uncomment the seeder in this file.
+If you have already ran the above command you can refresh the database using the following:
+
+```
+sail php artisan migrate:fresh --seed
+```
+
+Check the example user token in the PersonalAccessTokenSeeder.ph for the api bearer token required to use the API routes.
+
+# API End Points
+All API end points to do with shops are post requests:
+
+## http://localhost/api/shops
+
+This will create a new shop and requires the following data:
+
+'name', 'latitude', 'longitude', 'status', 'type', 'max_delivery_distance' (all required)
+
+## http://localhost/api/shops/near-to-postcode
+This end point returns a list of shops within a certain distance of a post code.
+
+The distance is defaulted to a maximum of 1000 metres, but the end point provides an optional distance attribute which can be used to shorten or extend the distance required.
+
+It requires the following data:
+
+'post_code' (required) 'distance' (optional in metres) 
+
+## http://localhost/api/shops/near-to-postcode
+This end point returns a list of shops who will deliver to the provided post code.
+
+It requires the following data:
+
+'post_code' (required)
+
+# Import the post codes
+The import downloads the file and extracts the data and batches this data into a series of jobs for processing.  
+
+Before starting the download and import you will need to make sure your job queue is running.
+```
+php artisan queue:work
+```
+
+To import the post codes from the data source run the following command:
+```
+sail php artisan app:import-postcodes-from-csv
+```
+Now sit back and wait as the whole process will take a while to complete.
+
+# Thoughts
+Having completed this test I have some thoughts, ideas, points I wanted to make.....so here you go:
+
+## MySQL
+1) Haversine Algorithmn
+
+This was fun to learn.
+
+However, MySQL has spatial commands that can be included in later versions of MySQL to help improve these kind of searches. The MySQL version used here has the ability to uitlise use spatial fields, but not the commands required to query the data.  Being part of sail / docker rebuilding the Dockerfile to include these commands felt a bit beyong the scope, but it would be interesting
+to see how these improve the data retrieval - especially should the shop data records become very large.
+
+## API 
+1) Finding Shops - I was unsure about the field "status" -  did this mean the shops where premenantly closed or simply closed at this time of day.  I have included all shops in the response, but this could be improved.
+2) Finding Shops - Should there have been a filter on the type of shop returned?
+3) Finding Shops - Without knowing exactly how the data will be used by the end user, I have limited the response to the first 100 records.  However, this could be adapted to fit the eact requirements should it be necessary.
+4) Creating Shop - I have assumed all fields would be required and must be set by the supplier of the data.
+
+## Import
+1) I have assumed all post codes should fit the standard format - a length of either 7 or 8 characters of leeters and numbers separated by space.  Any post codes not fitting this format are rejected.  
+
+I noted that a large number of the post codes in the data supplied do not fit this format.  This would mean we either need to adapt the way the data in is included (perhaps a new post code column without the space - which in turn would mean changes to api queries) or worse a manipulation of the data before it was imported - which could be problematic to ensure they are correct and / or in the correct format.
+
+2) How often is this import expected to be run? The file is from November 22, so this suggests it is not updated regularly - so is an import required?
+3) When a new update is available, presumably the file name and link would change, which would require a code update - or if moved to .env file and update here instead.
+4) What is expected to happen if the file structure of the download changed?  Again code changes would be required which doesn't seem the best approach.
+5) How trusted is the source?
+6) With the approach I have taken - adding or updating records in the exitsing post code table - and the lenght of time these changes take to make (about an hour) - I do not know what kind of demand level their is for this table, but would this import have any impact upon our operational requirements?
+6) Given the large amount of data, the rarity of change and the risks outlined above - would it be better to import the data directly in the DB.  We could create a temporayy table import the data
+and then test the imported information.  Once happy would simply need to delete the existing table and rename the temporary table.  This approach would significantly reduce the operational impact caused by the download and import.
+7) With a data import, we could also spend some time cleaning the data before it was imported too!  Or perhaps this the better approach for the import code, if we chose to continue with this method.
+8) The download says it has current and old unused post codes included.  How many of these are no longer used?  There are 1.8Mish records, do we need them all.  Problem was I couldn't see an obvious flag to signify which were current and which were old.  I did check a hand full of the post codes that had no space - in chase this was the point of difference, but this appeared to be valid on Google maps.
+9) Would a third party service be more appropriate to use? 
+
+
