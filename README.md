@@ -108,6 +108,17 @@ sail php artisan app:import-postcodes-from-csv
 ```
 Now sit back and wait as the whole process will take a while to complete.
 
+# Tests
+I have not fully fledge out the test, but rather scaffolded the tests as an indication of the type of tests I would expect to see.
+
+Should you still wish to run them, then use the following command:
+```
+sail php artisan test
+```
+
+I have not written tests for the download command, as I would not want to download the zip file everytime I ran the tests.  Plus the way the command is written we would only be able to test that no jobs had been queued.  **We could write tests to run manually should we so choose to do so.**
+
+
 # Thoughts
 Having completed this test I have some thoughts, ideas, points I wanted to make.....so here you go:
 
