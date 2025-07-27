@@ -28,7 +28,7 @@ class Position extends Model
     ];
 
     /** Relationships */
-    
+
     /**
      * Get the players associated with the parent position.
      */

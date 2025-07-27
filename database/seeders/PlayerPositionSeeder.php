@@ -39,7 +39,7 @@ class PlayerPositionSeeder extends Seeder
             ['external_position_id' => 227, 'name' => 'Goalkeeping Coach'],
             ['external_position_id' => 228, 'name' => 'Forward Coach'],
             ['external_position_id' => 560, 'name' => 'Caretaker Manager'],
-            // Weirdly data doesn't have a manager!?! 
+            // Weirdly data doesn't have a manager!?!
         )->create();
     }
 }

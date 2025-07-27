@@ -24,7 +24,7 @@ class Country extends Model
     ];
 
     /** Relationships */
-    
+
     /**
      * Get the players associated with a country.
      */
