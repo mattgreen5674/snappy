@@ -1,0 +1,14 @@
+{
+    "scripts": {
+        "lint": {
+            "phpstan": [
+                "./vendor/bin/phpstan",
+                "analyse",
+                "app",
+                "config",
+                "database",
+                "resources"
+            ]
+        }
+    }
+}

@@ -3,7 +3,7 @@
 use App\Http\Controllers\MattTestController;
 use Illuminate\Support\Facades\Route;
 
-//Route::view('/', 'welcome'); In case this is required later, you can put it back !
+// Route::view('/', 'welcome'); In case this is required later, you can put it back !
 Route::redirect('/', 'login');
 
 // Route::view('dashboard', 'dashboard')
@@ -27,4 +27,4 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
 });
 
-require __DIR__.'/auth.php';
+require __DIR__ . '/auth.php';

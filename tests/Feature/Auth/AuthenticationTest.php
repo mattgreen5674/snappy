@@ -11,7 +11,10 @@ class AuthenticationTest extends TestCase
 {
     use RefreshDatabase;
 
-    public function test_login_screen_can_be_rendered(): void
+    /**
+     * @test
+     */
+    public function login_screen_can_be_rendered(): void
     {
         $response = $this->get('/login');
 
@@ -20,7 +23,10 @@ class AuthenticationTest extends TestCase
             ->assertSeeVolt('pages.auth.login');
     }
 
-    public function test_users_can_authenticate_using_the_login_screen(): void
+    /**
+     * @test
+     */
+    public function users_can_authenticate_using_the_login_screen(): void
     {
         $user = User::factory()->create();
 
@@ -37,7 +43,10 @@ class AuthenticationTest extends TestCase
         $this->assertAuthenticated();
     }
 
-    public function test_users_can_not_authenticate_with_invalid_password(): void
+    /**
+     * @test
+     */
+    public function users_can_not_authenticate_with_invalid_password(): void
     {
         $user = User::factory()->create();
 
@@ -54,7 +63,10 @@ class AuthenticationTest extends TestCase
         $this->assertGuest();
     }
 
-    public function test_navigation_menu_can_be_rendered(): void
+    /**
+     * @test
+     */
+    public function navigation_menu_can_be_rendered(): void
     {
         $user = User::factory()->create();
 
@@ -67,7 +79,10 @@ class AuthenticationTest extends TestCase
             ->assertSeeVolt('layout.navigation');
     }
 
-    public function test_users_can_logout(): void
+    /**
+     * @test
+     */
+    public function users_can_logout(): void
     {
         $user = User::factory()->create();
 

@@ -15,7 +15,7 @@ Route::middleware('auth:sanctum')
                 Route::post('will-deliver-to-postcode', 'willDeliverToPostCode')->name('shops.will_deliver_to_postcode');
             });
 
-        Route::prefix('/user')->group(function () {
+        Route::prefix('user')->group(function () {
             Route::get('', function (Request $request) {
                 return $request->user();
             });
