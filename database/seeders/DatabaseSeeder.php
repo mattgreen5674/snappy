@@ -15,8 +15,7 @@ class DatabaseSeeder extends Seeder
     {
         $this->call([
             PersonalAccessTokenSeeder::class,
-            //PostCodeSeeder::class,
-            ShopSeeder::class,
+            PlayerPositionSeeder::class,
         ]);
     }
 }
