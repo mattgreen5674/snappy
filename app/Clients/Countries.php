@@ -1,15 +1,15 @@
 <?php
 
-// https://docs.sportmonks.com/football/endpoints-and-entities/endpoints/players
+// https://docs.sportmonks.com/football/core-api/endpoints/countries/get-all-countries
 
 namespace App\Clients;
 
 use Exception;
 use Symfony\Component\HttpFoundation\Response as HttpStatuses;
 
-class Players extends SportsMonk
+class Countries extends SportsMonk
 {
-    public string $endPoint = 'football/players';
+    public string $endPoint = 'core/countries';
 
     /**
      * Get a list of players.
@@ -23,7 +23,7 @@ class Players extends SportsMonk
         $response = $this->client->get($this->endPoint, $this->parameters);
 
         if ($response->status() !== HttpStatuses::HTTP_OK) {
-            $errMsg = 'Sports Monk API getting players list failed';
+            $errMsg = 'Sports Monk API getting countries list failed';
             info([$errMsg, $response->status(), $response->body()]);
             throw new Exception($errMsg);
         }
