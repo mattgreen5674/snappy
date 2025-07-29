@@ -23,8 +23,8 @@ class Player extends Model
         'last_name',
         'date_of_birth',
         'gender',
+        'parent_position_id',
         'position_id',
-        'detailed_position_id',
         'nationality_id',
         'image_path',
     ];
@@ -32,7 +32,7 @@ class Player extends Model
     /** Relationships */
 
     /**
-     * Get the general position associated with the player.
+     * Get the position associated with the player.
      */
     public function position(): BelongsTo
     {

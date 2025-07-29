@@ -12,8 +12,8 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('external_country_id')->unique(); // Sports Monk id
             $table->string('name', 255);
-            $table->string('code', 2);
-            $table->string('image_path', 255);
+            $table->string('fifa_name', 3)->nullable();
+            $table->string('image_path', 255)->nullable();
             $table->timestamps();
         });
     }

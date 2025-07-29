@@ -19,7 +19,7 @@ class Country extends Model
     protected $fillable = [
         'external_country_id',
         'name',
-        'code',
+        'fifa_name',
         'image_path',
     ];
 

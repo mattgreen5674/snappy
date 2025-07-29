@@ -10,7 +10,7 @@ return new class extends Migration
     {
         Schema::create('players', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('external_player_id'); // Sports Monk id
+            $table->unsignedBigInteger('external_player_id')->unique(); // Sports Monk id
             $table->string('first_name', 255);
             $table->string('last_name', 255);
             $table->date('date_of_birth');
