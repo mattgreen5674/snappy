@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Models;
+namespace App\Models\Countries;
 
 use App\Models\Players\Player;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
