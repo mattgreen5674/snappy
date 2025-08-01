@@ -16,7 +16,6 @@ class ListView extends Component
     public int $currentPage = 1;
     public int $lastPage    = 1;
     public int $limit;
-    public string $paginationKey;
 
     public function mount(): void
     {
@@ -30,7 +29,7 @@ class ListView extends Component
     }
 
     #[On('pagination-update')]
-    public function change(int $newPage): void
+    public function paginationChange(int $newPage): void
     {
         $this->currentPage = $newPage;
         $this->getPlayers();
@@ -50,7 +49,6 @@ class ListView extends Component
             ->offset(($this->currentPage - 1) * $this->limit)
             ->limit($this->limit);
 
-        $this->players       = $playersQuery->get();
-        $this->paginationKey = md5(json_encode($this->players));
+        $this->players = $playersQuery->get();
     }
 }

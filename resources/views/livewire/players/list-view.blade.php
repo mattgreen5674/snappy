@@ -43,7 +43,7 @@
         <livewire:helpers.lists.pagination
             :currentPage="$currentPage"
             :lastPage="$lastPage"
-            :key="$paginationKey"
+            key="{{ md5(json_encode($players)) }}"
         />
     @endif
 
