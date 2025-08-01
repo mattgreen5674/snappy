@@ -2,7 +2,7 @@
 
 namespace App\Models\Players;
 
-use App\Models\Country;
+use App\Models\Countries\Country;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -32,7 +32,7 @@ class Player extends Model
     /** Relationships */
 
     /**
-     * Get the position associated with the player.
+     * Get the general position associated with the player.
      */
     public function position(): BelongsTo
     {
