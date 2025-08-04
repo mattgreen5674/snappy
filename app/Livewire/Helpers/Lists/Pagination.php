@@ -48,4 +48,3 @@ class Pagination extends Component
         $this->dispatch('pagination-update', newPage: $newPage);
     }
 }
-

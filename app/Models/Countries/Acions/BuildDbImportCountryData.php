@@ -5,8 +5,8 @@ namespace App\Models\Countries\Acions;
 use Exception;
 use Illuminate\Support\Collection;
 
-class BuildDbImportCountryData {
-
+class BuildDbImportCountryData
+{
     public function __construct(public Collection $data) {}
 
     public static function fromCollection(Collection $countries): BuildDbImportCountryData
@@ -22,6 +22,7 @@ class BuildDbImportCountryData {
             });
         } catch (Exception $e) {
             info(['sports monk countries data - build db country data error', $e->getMessage()]);
+
             return new BuildDbImportCountryData(collect());
         }
 

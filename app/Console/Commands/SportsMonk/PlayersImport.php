@@ -38,7 +38,7 @@ class PlayersImport extends Command
                 $client   = new SportsMonkPlayerClient;
                 $response = $client->list($lastId);
 
-                $players = collect(data_get($response, 'data', []));    
+                $players = collect(data_get($response, 'data', []));
 
                 if ($players->isNotEmpty()) {
                     SavePlayerData::dispatch($players);
@@ -50,9 +50,9 @@ class PlayersImport extends Command
                     // As such is it difficult to calculate potential running times, so assumed given
                     // the number of supported leagues x teams x potential squad size (and former players)
                     // that this data would be quite considerable.
-                    // This would definately need some thinking about, but here I am commenting out the loop 
+                    // This would definately need some thinking about, but here I am commenting out the loop
                     // code and limiting the import to the first 1,000 records.
-                    $hasNext = false; 
+                    $hasNext = false;
 
                 } else {
                     info('sports monk import players data - no records to import');

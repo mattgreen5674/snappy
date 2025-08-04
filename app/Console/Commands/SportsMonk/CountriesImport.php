@@ -38,7 +38,7 @@ class CountriesImport extends Command
                 $client   = new SportsMonkCountryClient;
                 $response = $client->list($lastId);
 
-                $countries = collect(data_get($response, 'data', []));    
+                $countries = collect(data_get($response, 'data', []));
 
                 if ($countries->isNotEmpty()) {
                     SaveCountryData::dispatch($countries);
