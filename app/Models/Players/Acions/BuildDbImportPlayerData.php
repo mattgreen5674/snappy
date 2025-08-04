@@ -5,8 +5,8 @@ namespace App\Models\Players\Acions;
 use Exception;
 use Illuminate\Support\Collection;
 
-class BuildDbImportPlayerData {
-
+class BuildDbImportPlayerData
+{
     public function __construct(public Collection $data) {}
 
     public static function fromCollection(Collection $players): BuildDbImportPlayerData
@@ -27,6 +27,7 @@ class BuildDbImportPlayerData {
             });
         } catch (Exception $e) {
             info(['sports monk players data - build db player data error', $e->getMessage()]);
+
             return new BuildDbImportPlayerData(collect());
         }
 
