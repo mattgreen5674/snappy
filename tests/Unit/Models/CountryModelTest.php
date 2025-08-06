@@ -2,9 +2,9 @@
 
 namespace Tests\Unit\Models;
 
+use Illuminate\Foundation\Testing\RefreshDatabase;
 use PHPUnit\Framework\Attributes\Test;
 use Tests\TestCase;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestData\PlayerTestData;
 
 class CountryModelTest extends TestCase

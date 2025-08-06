@@ -17,8 +17,8 @@ class BuildCountriesFilterData
 
     public static function get(): BuildCountriesFilterData
     {
-        return new BuildCountriesFilterData();
-    }   
+        return new BuildCountriesFilterData;
+    }
 
     public function build(): void
     {

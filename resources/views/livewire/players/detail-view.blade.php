@@ -8,7 +8,7 @@
             <div class="m-auto">
                 <img
                     src="{{ $player->image_path }}"
-                    alt="{{ $player->full_name . ' image'}}"
+                    alt="{{ $player->full_name . ' image' }}"
                     width="350"
                     height="450"
                 >

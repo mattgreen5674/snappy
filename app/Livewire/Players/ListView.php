@@ -89,7 +89,7 @@ class ListView extends Component
 
     public function getCountries(): void
     {
-        $this->countries = BuildCountriesFilterData::get()->countries; 
+        $this->countries = BuildCountriesFilterData::get()->countries;
     }
 
     public function getSortOptions(): void

@@ -15,8 +15,8 @@ class BuildSortOptionsData
 
     public static function get(): BuildSortOptionsData
     {
-        return new BuildSortOptionsData();
-    }   
+        return new BuildSortOptionsData;
+    }
 
     public function build(): void
     {

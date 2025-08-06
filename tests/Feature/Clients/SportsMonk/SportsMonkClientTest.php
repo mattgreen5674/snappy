@@ -3,6 +3,7 @@
 namespace Tests\Feature\Clients\SportsMonk;
 
 use App\Clients\SportsMonk as SportsMonkApiClient;
+use Exception;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Config;
 use PHPUnit\Framework\Attributes\Test;
@@ -18,7 +19,6 @@ class SportsMonkClientTest extends TestCase
         Config::set('sportsmonk.api.base_url', 'https://sports_monk_test_api_url/api');
         Config::set('sportsmonk.api.key', 'sp0rt5MoNKT3stApiKEy');
 
-        
         $client = new SportsMonkApiClient;
 
         $this->assertEquals(['api_token' => 'sp0rt5MoNKT3stApiKEy'], $client->parameters);
@@ -31,10 +31,10 @@ class SportsMonkClientTest extends TestCase
         Config::set('sportsmonk.api.base_url', null);
         Config::set('sportsmonk.api.key', null);
 
-        $this->expectException(\Exception::class);
+        $this->expectException(Exception::class);
         $this->expectExceptionMessage('Sports Monk API connection failed');
 
-        new SportsMonkApiClient();
+        new SportsMonkApiClient;
     }
 
     #[Test]
@@ -43,7 +43,7 @@ class SportsMonkClientTest extends TestCase
         Config::set('sportsmonk.api.base_url', 'https://sports_monk_test_api_url/api');
         Config::set('sportsmonk.api.key', 'sp0rt5MoNKT3stApiKEy');
 
-        $client = new SportsMonkApiClient();
+        $client = new SportsMonkApiClient;
         $client->buildQueryParameters();
 
         $this->assertEquals([
@@ -58,7 +58,7 @@ class SportsMonkClientTest extends TestCase
         Config::set('sportsmonk.api.base_url', 'https://sports_monk_test_api_url/api');
         Config::set('sportsmonk.api.key', 'sp0rt5MoNKT3stApiKEy');
 
-        $client = new SportsMonkApiClient();
+        $client = new SportsMonkApiClient;
         $client->buildQueryParameters(0, 25);
 
         $this->assertEquals([
@@ -73,7 +73,7 @@ class SportsMonkClientTest extends TestCase
         Config::set('sportsmonk.api.base_url', 'https://sports_monk_test_api_url/api');
         Config::set('sportsmonk.api.key', 'sp0rt5MoNKT3stApiKEy');
 
-        $client = new SportsMonkApiClient();
+        $client = new SportsMonkApiClient;
         $client->buildQueryParameters(0, 150);
 
         $this->assertEquals([
@@ -87,7 +87,7 @@ class SportsMonkClientTest extends TestCase
         Config::set('sportsmonk.api.base_url', 'https://sports_monk_test_api_url/api');
         Config::set('sportsmonk.api.key', 'sp0rt5MoNKT3stApiKEy');
 
-        $client = new SportsMonkApiClient();
+        $client = new SportsMonkApiClient;
         $client->buildQueryParameters(1234);
 
         $this->assertEquals([
