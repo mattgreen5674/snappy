@@ -4,15 +4,14 @@ namespace Tests\Feature\Auth;
 
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Livewire\Volt\Volt;
+use PHPUnit\Framework\Attributes\Test;
 use Tests\TestCase;
 
 class RegistrationTest extends TestCase
 {
     use RefreshDatabase;
 
-    /**
-     * @test
-     */
+    #[Test]
     public function registration_screen_can_be_rendered(): void
     {
         $response = $this->get('/register');
@@ -22,9 +21,7 @@ class RegistrationTest extends TestCase
             ->assertSeeVolt('pages.auth.register');
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function new_users_can_register(): void
     {
         $component = Volt::test('pages.auth.register')
