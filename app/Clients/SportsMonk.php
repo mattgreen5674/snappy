@@ -14,10 +14,15 @@ class SportsMonk
     public function __construct()
     {
         try {
-            $this->parameters = ['api_token' => config('sportsmonk.api.key')];
+            $apiKey  = config('sportsmonk.api.key');
+            $baseUrl = config('sportsmonk.api.base_url');
+            if (empty($apiKey) || empty($baseUrl)) {
+                throw new Exception('Sports Monk API missing client details');
+            }
 
-            $this->client = Http::timeout(10)
-                ->baseUrl(config('sportsmonk.api.base_url'))
+            $this->parameters = ['api_token' => $apiKey];
+            $this->client     = Http::timeout(10)
+                ->baseUrl($baseUrl)
                 ->acceptJson();
 
         } catch (Exception $e) {
