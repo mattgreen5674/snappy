@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Models\Players\Acions\Lists;
+namespace App\Models\Players\Actions\Lists;
 
 use App\Models\Helpers\Lists\Actions\CalculatePaginationLastPage;
 use App\Models\Players\DTOs\PlayerListData;
@@ -36,7 +36,7 @@ class BuildPlayersListData
             )->playersQuery;
 
             // Filters
-            $playersQuery = BuildPlayersCountryFilterQuery::fromFilterCountryId(
+            $playersQuery = BuildCountriesFilterQuery::fromFilterCountryId(
                 $playersQuery,
                 $playerListQueryData->filterCountryId
             )->playersQuery;

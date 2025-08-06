@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Models\Players\Acions;
+namespace App\Models\Players\Actions;
 
 use Exception;
 use Illuminate\Support\Collection;

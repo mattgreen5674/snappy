@@ -2,7 +2,7 @@
 
 namespace App\Jobs\SportsMonk;
 
-use App\Models\Countries\Acions\BuildDbImportCountryData;
+use App\Models\Countries\Actions\BuildDbImportCountryData;
 use App\Models\Countries\Country;
 use Exception;
 use Illuminate\Contracts\Queue\ShouldQueue;

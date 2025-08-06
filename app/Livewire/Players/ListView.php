@@ -2,8 +2,9 @@
 
 namespace App\Livewire\Players;
 
-use App\Models\Countries\Country;
-use App\Models\Players\Acions\Lists\BuildPlayersListData;
+use App\Models\Players\Actions\Lists\BuildCountriesFilterData;
+use App\Models\Players\Actions\Lists\BuildPlayersListData;
+use App\Models\Players\Actions\Lists\BuildSortOptionsData;
 use App\Models\Players\DTOs\PlayerListQueryData;
 use Illuminate\Support\Collection;
 use Livewire\Attributes\On;
@@ -88,23 +89,11 @@ class ListView extends Component
 
     public function getCountries(): void
     {
-        $countries = Country::get()->mapWithKeys(function ($country) {
-            return [$country->external_country_id => $country->name];
-        })->sort()->prepend('All', 0);
-
-        $this->countries = $countries; // should always be at least the all option!
+        $this->countries = BuildCountriesFilterData::get()->countries; 
     }
 
     public function getSortOptions(): void
     {
-        $this->sortOptions = collect([
-            0 => 'None',
-            1 => 'Name (A-Z)',
-            2 => 'Name (Z-A)',
-            3 => 'Nationality (A-Z)',
-            4 => 'Nationality (Z-A)',
-            5 => 'Position (A-Z)',
-            6 => 'Position (Z-A)',
-        ]);
+        $this->sortOptions = BuildSortOptionsData::get()->options;
     }
 }

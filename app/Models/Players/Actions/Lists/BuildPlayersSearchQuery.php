@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Models\Players\Acions\Lists;
+namespace App\Models\Players\Actions\Lists;
 
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Str;

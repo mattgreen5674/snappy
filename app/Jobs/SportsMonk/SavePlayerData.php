@@ -2,7 +2,7 @@
 
 namespace App\Jobs\SportsMonk;
 
-use App\Models\Players\Acions\BuildDbImportPlayerData;
+use App\Models\Players\Actions\BuildDbImportPlayerData;
 use App\Models\Players\Player;
 use Exception;
 use Illuminate\Contracts\Queue\ShouldQueue;

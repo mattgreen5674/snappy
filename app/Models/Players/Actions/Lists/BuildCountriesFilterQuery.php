@@ -1,22 +1,22 @@
 <?php
 
-namespace App\Models\Players\Acions\Lists;
+namespace App\Models\Players\Actions\Lists;
 
 use Illuminate\Database\Eloquent\Builder;
 
-class BuildPlayersCountryFilterQuery
+class BuildCountriesFilterQuery
 {
     public function __construct(
         public Builder $playersQuery
     ) {}
 
-    public static function fromFilterCountryId(Builder $playersQuery, int $filterCountryId): BuildPlayersSortQuery
+    public static function fromFilterCountryId(Builder $playersQuery, int $filterCountryId): BuildCountriesFilterQuery
     {
         // 0 = All
         if ($filterCountryId != 0) {
             $playersQuery->where('nationality_id', $filterCountryId);
         }
 
-        return new BuildPlayersSortQuery($playersQuery);
+        return new BuildCountriesFilterQuery($playersQuery);
     }
 }

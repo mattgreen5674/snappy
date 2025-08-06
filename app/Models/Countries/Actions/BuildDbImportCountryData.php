@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Models\Countries\Acions;
+namespace App\Models\Countries\Actions;
 
 use Exception;
 use Illuminate\Support\Collection;
