@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Feature\Clients\SportsMonk;
+namespace Tests\Unit\Clients\SportsMonk;
 
 use App\Clients\SportsMonk as SportsMonkApiClient;
 use Exception;

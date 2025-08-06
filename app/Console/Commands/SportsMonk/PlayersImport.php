@@ -60,6 +60,7 @@ class PlayersImport extends Command
                 }
             } catch (Exception $e) {
                 info(['sports monk import players data - error', $e->getMessage()]);
+                // \Sentry\captureMessage('sports monk import players failed');
                 $hasNext = false;
             }
         } while ($hasNext);

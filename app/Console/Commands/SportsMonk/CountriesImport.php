@@ -52,6 +52,7 @@ class CountriesImport extends Command
                 }
             } catch (Exception $e) {
                 info(['sports monk import countries data - error', $e->getMessage()]);
+                // \Sentry\captureMessage('sports monk import countries failed');
                 $hasNext = false;
             }
         } while ($hasNext);

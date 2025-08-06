@@ -32,8 +32,8 @@ class Countries extends SportsMonk
         return [
             'data'     => $response->json('data'),
             'meta'     => array_merge(
-                $response->json('subscription.0.meta'), // would need to understand subscriptions better to ensure key 0 is consistent.
-                ['has_more' => $response->json('pagination.has_more')], // lets us know if there are more records to be retrieved.
+                $response->json('subscription.0.meta') ?? [], // would need to understand subscriptions better to ensure key 0 is consistent.
+                ['has_more' => $response->json('pagination.has_more') ?? false], // lets us know if there are more records to be retrieved.
             ),
         ];
     }
