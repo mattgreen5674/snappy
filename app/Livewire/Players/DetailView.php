@@ -12,6 +12,11 @@ class DetailView extends Component
 
     public function mount(): void
     {
+        if (empty(request()->id)) {
+            throw new Exception('Required player id missing');
+            // \Sentry\captureMessage('Finding player details request without id');
+        }
+
         $this->getPlayer(request()->id);
     }
 
@@ -25,8 +30,9 @@ class DetailView extends Component
         try {
             $this->player = Player::findOrFail($id);
         } catch (Exception $e) {
-            dd($e);
             info($e);
+            // \Sentry\captureMessage('Finding player details by id failed');
+            throw new Exception('Finding player details by id failed');
         }
     }
 }
