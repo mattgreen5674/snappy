@@ -29,9 +29,9 @@ class SavePlayerDataTest extends TestCase
     public function it_logs_an_error_if_upsert_fails(): void
     {
         Log::spy();
-        
+
         $countries = collect([
-            ['id' => 1, 'name' => null, 'fifa_name' => null, 'image_path' => null]
+            ['id' => 1, 'name' => null, 'fifa_name' => null, 'image_path' => null],
         ]);
 
         Log::shouldReceive('info')->with(Mockery::on(function ($arg) {

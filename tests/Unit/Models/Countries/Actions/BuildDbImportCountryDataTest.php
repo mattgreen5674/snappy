@@ -25,7 +25,7 @@ class BuildDbImportCountryDataTest extends TestCase
     public function it_works_when_there_is_an_error_building_the_countries_data(): void
     {
         $data = BuildDbImportCountryData::fromCollection(collect([
-            ['id' => 1, 'name' => 'Country Name 1'], // missing data 
+            ['id' => 1, 'name' => 'Country Name 1'], // missing data
         ]))->data;
 
         $this->assertCount(0, $data);
@@ -46,7 +46,7 @@ class BuildDbImportCountryDataTest extends TestCase
         $this->assertInstanceOf(Collection::class, $data);
         $this->assertCount(5, $data);
         $this->assertEquals($data[0], [
-            'external_country_id' =>1,
+            'external_country_id' => 1,
             'name'                => 'Country Name 1',
             'fifa_name'           => 'one',
             'image_path'          => 'country_name_one',

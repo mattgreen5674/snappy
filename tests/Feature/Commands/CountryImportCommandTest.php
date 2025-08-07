@@ -33,7 +33,7 @@ class CountryImportCommandTest extends TestCase
             'meta'       => [],
             'pagination' => [
                 'has_more' => false,
-            ]
+            ],
         ];
 
         Http::fake([$url => Http::response($data, 200)]);
@@ -63,7 +63,7 @@ class CountryImportCommandTest extends TestCase
             'meta'       => [],
             'pagination' => [
                 'has_more' => true,
-            ]
+            ],
         ];
 
         $url2  = 'https://sports_monk_test_api_url/api/core/countries?api_token=sp0rt5MoNKT3stApiKEy&idAfter=2&filters=populate';
@@ -74,7 +74,7 @@ class CountryImportCommandTest extends TestCase
             'meta'       => [],
             'pagination' => [
                 'has_more' => false,
-            ]
+            ],
         ];
 
         Http::fake([
@@ -103,11 +103,11 @@ class CountryImportCommandTest extends TestCase
 
         $url  = 'https://sports_monk_test_api_url/api/core/countries?api_token=sp0rt5MoNKT3stApiKEy&filters=populate';
         $data = [
-            'data' => [],
+            'data'       => [],
             'meta'       => [],
             'pagination' => [
                 'has_more' => false,
-            ]
+            ],
         ];
 
         Http::fake([$url => Http::response($data, 200)]);

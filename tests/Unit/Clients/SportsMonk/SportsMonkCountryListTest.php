@@ -23,7 +23,7 @@ class SportsMonkCountryListTest extends TestCase
 
         Http::fake([
             $url => Http::response([
-                'data' => ['country1', 'country2'], // I have not created a 1000 records to keep things neat.
+                'data'         => ['country1', 'country2'], // I have not created a 1000 records to keep things neat.
                 'subscription' => [
                     ['meta' => ['page' => 1, 'per_page' => 1000]],
                 ],
@@ -36,7 +36,7 @@ class SportsMonkCountryListTest extends TestCase
 
         $this->assertEquals(['country1', 'country2'], $result['data']);
         $this->assertEquals([
-            'page' => 1,
+            'page'     => 1,
             'per_page' => 1000,
             'has_more' => true,
         ], $result['meta']);
@@ -69,7 +69,7 @@ class SportsMonkCountryListTest extends TestCase
 
         Http::fake([
             $url => Http::response([
-                'data' => ['country2345', 'country2346'],
+                'data'         => ['country2345', 'country2346'],
                 'subscription' => [
                     ['meta' => ['page' => 1, 'per_page' => 2]],
                 ],
@@ -82,7 +82,7 @@ class SportsMonkCountryListTest extends TestCase
 
         $this->assertEquals(['country2345', 'country2346'], $result['data']);
         $this->assertEquals([
-            'page' => 1,
+            'page'     => 1,
             'per_page' => 2,
             'has_more' => true,
         ], $result['meta']);
@@ -97,9 +97,9 @@ class SportsMonkCountryListTest extends TestCase
 
         Http::fake([
             $url => Http::response([
-                'data' => [],
+                'data'         => [],
                 'subscription' => [],
-                'pagination' => [],
+                'pagination'   => [],
             ], 200),
         ]);
 

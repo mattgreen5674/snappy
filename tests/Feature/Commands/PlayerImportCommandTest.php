@@ -33,7 +33,7 @@ class PlayerImportCommandTest extends TestCase
             'meta'       => [],
             'pagination' => [
                 'has_more' => false,
-            ]
+            ],
         ];
 
         Http::fake([$url => Http::response($data, 200)]);
@@ -107,11 +107,11 @@ class PlayerImportCommandTest extends TestCase
 
         $url  = 'https://sports_monk_test_api_url/api/football/players?api_token=sp0rt5MoNKT3stApiKEy&filters=populate';
         $data = [
-            'data' => [],
+            'data'       => [],
             'meta'       => [],
             'pagination' => [
                 'has_more' => false,
-            ]
+            ],
         ];
 
         Http::fake([$url => Http::response($data, 200)]);

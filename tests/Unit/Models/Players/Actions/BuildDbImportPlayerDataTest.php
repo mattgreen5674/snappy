@@ -25,7 +25,7 @@ class BuildDbImportPlayerDataTest extends TestCase
     public function it_works_when_there_is_an_error_building_the_players_data(): void
     {
         $data = BuildDbImportPlayerData::fromCollection(collect([
-            ['id' => 1, 'name' => 'Country Name 1'], // missing data 
+            ['id' => 1, 'name' => 'Country Name 1'], // missing data
         ]))->data;
 
         $this->assertCount(0, $data);
