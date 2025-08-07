@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Feature\Players;
+namespace Tests\Feature\Views\Players;
 
 use App\Livewire\Players\DetailView;
 use App\Models\User;
