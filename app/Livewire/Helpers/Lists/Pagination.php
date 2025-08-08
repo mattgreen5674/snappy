@@ -24,6 +24,8 @@ class Pagination extends Component
 
     public function updatePagination()
     {
+        $this->pagination = [];
+
         if ($this->lastPage <= 5) {
             // Show all pages if the number of pages is small
             for ($i = 1; $i <= $this->lastPage; $i++) {

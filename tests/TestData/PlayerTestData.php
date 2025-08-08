@@ -16,6 +16,7 @@ class PlayerTestData
         $dbPlayers        = collect();
         for ($i = 1; $i <= $playersToBuild; $i++) {
             $dbPlayer         = Player::factory()->create([
+                'external_player_id' => 1000 + $i - 1,
                 'first_name'         => 'Test',
                 'last_name'          => 'Player',
                 'nationality_id'     => $dbCountry->external_country_id,

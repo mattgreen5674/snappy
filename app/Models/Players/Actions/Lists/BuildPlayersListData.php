@@ -30,7 +30,7 @@ class BuildPlayersListData
                 ->join('player_positions', 'position_id', 'external_position_id');
 
             // Add Search
-            $playersQuery = BuildPlayersSearchQuery::fromSortId(
+            $playersQuery = BuildPlayersSearchQuery::fromSearchTerm(
                 $playersQuery,
                 $playerListQueryData->searchTerm
             )->playersQuery;
@@ -58,6 +58,7 @@ class BuildPlayersListData
 
         } catch (Exception $e) {
             info($e);
+            // \Sentry\captureMessage('Players List View: Building list query data failed');
 
             $this->playerListData = new PlayerListData(collect(), 1);
         }

@@ -11,7 +11,7 @@ class BuildPlayersSearchQuery
         public Builder $playersQuery
     ) {}
 
-    public static function fromSortId(Builder $playersQuery, string $searchTerm): BuildPlayersSearchQuery
+    public static function fromSearchTerm(Builder $playersQuery, string $searchTerm): BuildPlayersSearchQuery
     {
         if (Str::length($searchTerm) >= 3) {
             $playersQuery->where('first_name', 'LIKE', '%' . $searchTerm . '%')
