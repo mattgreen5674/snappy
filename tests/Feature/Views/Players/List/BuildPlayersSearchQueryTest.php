@@ -5,11 +5,11 @@ namespace Tests\Feature\Views\Players\List;
 use App\Models\Countries\Country;
 use App\Models\Players\Actions\Lists\BuildPlayersListData;
 use App\Models\Players\DTOs\PlayerListQueryData;
+use App\Models\Players\Player;
 use App\Models\Players\Position;
+use Exception;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Facades\Schema;
-use Mockery;
+use Mockery\MockInterface;
 use PHPUnit\Framework\Attributes\Test;
 use Tests\TestCase;
 use Tests\TestData\PlayerTestData;
@@ -58,7 +58,7 @@ class BuildPlayersSearchQueryTest extends TestCase
     public function it_builds_players_list_data_in_player_name_asc_order(): void
     {
         $dbPlayers = PlayerTestData::build(10); // Should create 1 pages
-        $names     = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J'];         
+        $names     = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J'];
         foreach ($dbPlayers['players'] as $key => $dbPlayer) {
             $dbPlayer->first_name = $names[$key];
             $dbPlayer->last_name  = $names[$key];
@@ -77,7 +77,7 @@ class BuildPlayersSearchQueryTest extends TestCase
     public function it_builds_players_list_data_in_player_name_desc_order(): void
     {
         $dbPlayers = PlayerTestData::build(10); // Should create 1 pages
-        $names     = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J'];         
+        $names     = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J'];
         foreach ($dbPlayers['players'] as $key => $dbPlayer) {
             $dbPlayer->first_name = $names[$key];
             $dbPlayer->last_name  = $names[$key];
@@ -96,11 +96,11 @@ class BuildPlayersSearchQueryTest extends TestCase
     public function it_builds_players_list_data_in_country_name_asc_order(): void
     {
         $dbPlayers = PlayerTestData::build(10); // Should create 1 pages
-        $names     = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J'];         
+        $names     = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J'];
         foreach ($dbPlayers['players'] as $key => $dbPlayer) {
             $dbCountry = Country::factory()->create([
-                'external_country_id' => 2000 + $key, 
-                'name'                => $names[$key]
+                'external_country_id' => 2000 + $key,
+                'name'                => $names[$key],
             ]);
 
             $dbPlayer->nationality_id = $dbCountry->external_country_id;
@@ -119,11 +119,11 @@ class BuildPlayersSearchQueryTest extends TestCase
     public function it_builds_players_list_data_in_country_name_desc_order(): void
     {
         $dbPlayers = PlayerTestData::build(10); // Should create 1 pages
-        $names     = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J'];         
+        $names     = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J'];
         foreach ($dbPlayers['players'] as $key => $dbPlayer) {
             $dbCountry = Country::factory()->create([
-                'external_country_id' => 2000 + $key, 
-                'name'                => $names[$key]
+                'external_country_id' => 2000 + $key,
+                'name'                => $names[$key],
             ]);
 
             $dbPlayer->nationality_id = $dbCountry->external_country_id;
@@ -142,11 +142,11 @@ class BuildPlayersSearchQueryTest extends TestCase
     public function it_builds_players_list_data_in_position_name_asc_order(): void
     {
         $dbPlayers = PlayerTestData::build(10); // Should create 1 pages
-        $names     = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J'];         
+        $names     = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J'];
         foreach ($dbPlayers['players'] as $key => $dbPlayer) {
             $dbPosition = Position::factory()->create([
-                'external_position_id' => 3000 + $key, 
-                'name'                 => $names[$key]
+                'external_position_id' => 3000 + $key,
+                'name'                 => $names[$key],
             ]);
 
             $dbPlayer->position_id = $dbPosition->external_position_id;
@@ -165,11 +165,11 @@ class BuildPlayersSearchQueryTest extends TestCase
     public function it_builds_players_list_data_in_position_name_desc_order(): void
     {
         $dbPlayers = PlayerTestData::build(10); // Should create 1 pages
-        $names     = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J'];         
+        $names     = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J'];
         foreach ($dbPlayers['players'] as $key => $dbPlayer) {
             $dbPosition = Position::factory()->create([
-                'external_position_id' => 3000 + $key, 
-                'name'                 => $names[$key]
+                'external_position_id' => 3000 + $key,
+                'name'                 => $names[$key],
             ]);
 
             $dbPlayer->position_id = $dbPosition->external_position_id;
@@ -189,7 +189,7 @@ class BuildPlayersSearchQueryTest extends TestCase
     {
         $dbPlayers = PlayerTestData::build(10); // Should create 1 pages
         $dbCountry = Country::factory()->create([
-            'external_country_id' => 2000, 
+            'external_country_id' => 2000,
             'name'                => 'Country ' . 2000,
         ]);
         foreach ($dbPlayers['players'] as $key => $dbPlayer) {
@@ -289,7 +289,7 @@ class BuildPlayersSearchQueryTest extends TestCase
     {
         $dbPlayers = PlayerTestData::build(10); // Should create 1 pages
         Country::factory()->create([
-            'external_country_id' => 2000, 
+            'external_country_id' => 2000,
             'name'                => 'Obscure Country',
         ]);
         foreach ($dbPlayers['players'] as $key => $dbPlayer) {
@@ -312,7 +312,7 @@ class BuildPlayersSearchQueryTest extends TestCase
     {
         $dbPlayers  = PlayerTestData::build(10); // Should create 1 pages
         Position::factory()->create([
-            'external_position_id' => 3000, 
+            'external_position_id' => 3000,
             'name'                 => 'Obscure Position',
         ]);
         foreach ($dbPlayers['players'] as $key => $dbPlayer) {
@@ -334,8 +334,10 @@ class BuildPlayersSearchQueryTest extends TestCase
     {
         $playerListQueryData = new PlayerListQueryData('', 0, 0, 1, config('snappy.pagination.limits.ten'));
 
-        // Rename the table to simulate missing table and throw an error
-        Schema::rename('countries', 'countries_backup');
+        // Mock the Players model's static get method to throw an exception
+        $this->mock(Player::class, function (MockInterface $mock) {
+            $mock->shouldReceive('get')->andThrow(new Exception('DB error'));
+        });
 
         $playersListData = BuildPlayersListData::from($playerListQueryData)->playerListData;
 

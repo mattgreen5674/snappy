@@ -29,6 +29,7 @@ class BuildCountriesFilterData
 
         } catch (Exception $e) {
             info($e);
+            // \Sentry\captureMessage('Players List View: Building countries filter query data failed');
 
             $this->countries = collect()->prepend('All', 0); // should always be at least the all option!
         }

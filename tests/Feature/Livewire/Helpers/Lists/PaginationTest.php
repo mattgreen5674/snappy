@@ -14,10 +14,10 @@ class PaginationTest extends TestCase
     {
         Livewire::test(Pagination::class, [
             'currentPage' => 1,
-            'lastPage' => 5,
+            'lastPage'    => 5,
         ])
-        ->call('updatePagination')
-        ->assertSet('pagination', [1, 2, 3, 4, 5]);
+            ->call('updatePagination')
+            ->assertSet('pagination', [1, 2, 3, 4, 5]);
     }
 
     #[Test]
@@ -25,10 +25,10 @@ class PaginationTest extends TestCase
     {
         Livewire::test(Pagination::class, [
             'currentPage' => 2,
-            'lastPage' => 10,
+            'lastPage'    => 10,
         ])
-        ->call('updatePagination')
-        ->assertSet('pagination', [1, 2, 3, 4, 'dots', 10]);
+            ->call('updatePagination')
+            ->assertSet('pagination', [1, 2, 3, 4, 'dots', 10]);
     }
 
     #[Test]
@@ -36,10 +36,10 @@ class PaginationTest extends TestCase
     {
         Livewire::test(Pagination::class, [
             'currentPage' => 9,
-            'lastPage' => 10,
+            'lastPage'    => 10,
         ])
-        ->call('updatePagination')
-        ->assertSet('pagination', [1, 'dots', 7, 8, 9, 10]);
+            ->call('updatePagination')
+            ->assertSet('pagination', [1, 'dots', 7, 8, 9, 10]);
     }
 
     #[Test]
@@ -47,10 +47,10 @@ class PaginationTest extends TestCase
     {
         Livewire::test(Pagination::class, [
             'currentPage' => 5,
-            'lastPage' => 10,
+            'lastPage'    => 10,
         ])
-        ->call('updatePagination')
-        ->assertSet('pagination', [1, 'dots', 4, 5, 6, 'dots', 10]);
+            ->call('updatePagination')
+            ->assertSet('pagination', [1, 'dots', 4, 5, 6, 'dots', 10]);
     }
 
     #[Test]
@@ -58,9 +58,9 @@ class PaginationTest extends TestCase
     {
         Livewire::test(Pagination::class, [
             'currentPage' => 1,
-            'lastPage' => 5,
+            'lastPage'    => 5,
         ])
-        ->call('update', 3)
-        ->assertDispatched('pagination-update', newPage: 3);
+            ->call('update', 3)
+            ->assertDispatched('pagination-update', newPage: 3);
     }
 }
