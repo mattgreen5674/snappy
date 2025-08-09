@@ -47,7 +47,7 @@
                     </div>
 
                     <div class="w-40">
-                        <div class="text-gray-500 text-sm font-semibold">Nationailty</div>
+                        <div class="text-gray-500 text-sm font-semibold">Nationality</div>
                         <div class="text-gray-900 text-base">{{ $player->nationality->name }}</div>
                     </div>
 
