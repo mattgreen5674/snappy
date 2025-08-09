@@ -13,12 +13,6 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
     Route::view('profile', 'profile')->name('profile');
 
-    // Route::controller(MattTestController::class)
-    //     ->prefix('matt')
-    //     ->group(function () {
-    //         Route::get('', 'index')->name('matt');
-    //     });
-
     Route::prefix('players')->group(function () {
         Route::get('', PlayersListView::class)->name('players');
         Route::get('details/{id}', PlayersDetailView::class)->name('player.detail');
