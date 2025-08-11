@@ -1,4 +1,4 @@
-Picniq Tickets API
+Snappy
 =================
 
 # Getting started
@@ -7,7 +7,7 @@ This application leverages Laravel's Sail (Docker) to provision the development 
 
 !!! IMPORTANT !!!
 
-1) Copy the .env.example file to create your .env file and update with relevant database access information or ask another developer for a copy of their env file for this project to save you having to configure it all.
+1) Copy the .env.example file to create your .env file and update with Sportsmonk API url and API Key information.
 
 ---
 
@@ -60,96 +60,78 @@ Set up the data base:
 sail php artisan migrate --seed
 ```
 
-At present the DatabaseSeeder.php will create a user and some basic shops.  If wanted to have a few post codes to get going uncomment the seeder in this file.
-If you have already ran the above command you can refresh the database using the following:
+At present the DatabaseSeeder.php will create a user and player positions.
+
+If you want to refresh the database using the following:
 
 ```
 sail php artisan migrate:fresh --seed
 ```
 
-Check the example user token in the PersonalAccessTokenSeeder.ph for the api bearer token required to use the API routes.
+Check the example user token in the PersonalAccessTokenSeeder.ph for user access.
 
-# API End Points
-All API end points to do with shops are post requests:
-
-## http://localhost/api/shops
-
-This will create a new shop and requires the following data:
-
-'name', 'latitude', 'longitude', 'status', 'type', 'max_delivery_distance' (all required)
-
-## http://localhost/api/shops/near-to-postcode
-This end point returns a list of shops within a certain distance of a post code.
-
-The distance is defaulted to a maximum of 1000 metres, but the end point provides an optional distance attribute which can be used to shorten or extend the distance required.
-
-It requires the following data:
-
-'post_code' (required) 'distance' (optional in metres) 
-
-## http://localhost/api/shops/near-to-postcode
-This end point returns a list of shops who will deliver to the provided post code.
-
-It requires the following data:
-
-'post_code' (required)
-
-# Import the post codes
-The import downloads the file and extracts the data and batches this data into a series of jobs for processing.  
+# Import the player and country data
+To import the data you will need to run the following commands:
 
 Before starting the download and import you will need to make sure your job queue is running.
 ```
 php artisan queue:work
 ```
 
-To import the post codes from the data source run the following command:
+To import the countries from the data source run the following command:
 ```
-sail php artisan app:import-postcodes-from-csv
+sail php artisan app:countries-import
 ```
-Now sit back and wait as the whole process will take a while to complete.
+
+**! Important
+Import the countries data first - the foreigh keys on the player table relating to the countries will create import errors if you import players first.**
+
+When the countries have imported.  You can now import the players by running the following command:
+```
+sail php artisan app:players-import
+```
+
+You should now be able to log in and navigate to the playesrs list view.
+
+**If anything goes wrong check you have added the sportsmonk api environament variables.**
 
 # Tests
-I have not fully fledge out the test, but rather scaffolded the tests as an indication of the type of tests I would expect to see.
-
-Should you still wish to run them, then use the following command:
+To run the test, then use the following command:
 ```
 sail php artisan test
 ```
 
-I have not written tests for the download command, as I would not want to download the zip file everytime I ran the tests.  Plus the way the command is written we would only be able to test that no jobs had been queued.  **We could write tests to run manually should we so choose to do so.**
-
-
 # Thoughts
 Having completed this test I have some thoughts, ideas, points I wanted to make.....so here you go:
 
-## MySQL
-1) Haversine Algorithmn
+1) The Sportsmonk API access is on a free subscription, which means we have some limitations. The main one being that we are not given any indication of the total number of player records available.  Given the number of countries, the potential number of leagues for each country, the number of teams per league and differeing squad sizes - plus the fact that the data also includes current and retired players - the import could very well be sizeable.
 
-This was fun to learn.
+As a consequence, I have limited my player data import to the first 1,000 records.  The API appears to be set up for providing smaller data request, rather than large data downloads - I believe the largest number of records retrievable at any one time is limited to 1,000 records.  As such, work would need to be carried out to understand how long a full import of players would take and also what impact / considerations would need to taken to comply with the API's rate limiting.
 
-However, MySQL has spatial commands that can be included in later versions of MySQL to help improve these kind of searches. The MySQL version used here has the ability to uitlise use spatial fields, but not the commands required to query the data.  Being part of sail / docker rebuilding the Dockerfile to include these commands felt a bit beyong the scope, but it would be interesting
-to see how these improve the data retrieval - especially should the shop data records become very large.
+From this we would potential need to consider"
+ - How often the import is undertaken?
+ - Alternate strategies for importing the data - do we split up the runs, ie import different countries at different times or days!
+ - Do we not import the data, but simply use the API as intended?
+ - Countries shouldn't change too often, but we still need to ensure that any database integrity constraints are not compromised - should id's change or when new countries are added.
+ - This is also true for positions.  These are taken from the Sportsmonk types data download - a excel file not a database table. I undertook this import by manually creating a seeder.  However, an approach would be required to monitor these - I would assume they have the potential to change far more often than the countries.  Again any changes or additions would effect the foreign keys on players for position_id and parent_position_id - which would cause an error.
+ 
+ (If the imports failed however, we should be alerted to this via our error handling and fixes could be implemented relatively quickly.) 
 
-## API 
-1) Finding Shops - I was unsure about the field "status" -  did this mean the shops where premenantly closed or simply closed at this time of day.  I have included all shops in the response, but this could be improved.
-2) Finding Shops - Should there have been a filter on the type of shop returned?
-3) Finding Shops - Without knowing exactly how the data will be used by the end user, I have limited the response to the first 100 records.  However, this could be adapted to fit the eact requirements should it be necessary.
-4) Creating Shop - I have assumed all fields would be required and must be set by the supplier of the data.
+2) I am assuming we would consider the data from Sportmonk as safe.  As such I have not added any validation to the data imports, but this is certainly something to be considered.
+3) I have included sentry monitoring, but obvioulsy alternatives would work as well.  I have commented this out code out, the idea being you can see where I would utilise this resource, but I do not run the risk of it being called - yes I know I do not have it set up properly in my .env. 
 
-## Import
-1) I have assumed all post codes should fit the standard format - a length of either 7 or 8 characters of leeters and numbers separated by space.  Any post codes not fitting this format are rejected.  
+# Improvements / Next Steps
+1) List views - save search, filter, order and pagination data to cache.  This way when you return to the list view any selections are reinstated.
+2) List views - add additional filter to alter the number of records displayed.  Currently set to 10, but we could allow for the list to be larger.
+3) List views - could we create a base class, so the search, filter, sort and pagination is included by default and the functionality is hidden away?
+4) I have named the position type 'parent position', but I wonder if I should have continued to call this position type!
+5) Add countries and positions list views.
 
-I noted that a large number of the post codes in the data supplied do not fit this format.  This would mean we either need to adapt the way the data in is included (perhaps a new post code column without the space - which in turn would mean changes to api queries) or worse a manipulation of the data before it was imported - which could be problematic to ensure they are correct and / or in the correct format.
 
-2) How often is this import expected to be run? The file is from November 22, so this suggests it is not updated regularly - so is an import required?
-3) When a new update is available, presumably the file name and link would change, which would require a code update - or if moved to .env file and update here instead.
-4) What is expected to happen if the file structure of the download changed?  Again code changes would be required which doesn't seem the best approach.
-5) How trusted is the source?
-6) With the approach I have taken - adding or updating records in the exitsing post code table - and the lenght of time these changes take to make (about an hour) - I do not know what kind of demand level their is for this table, but would this import have any impact upon our operational requirements?
-6) Given the large amount of data, the rarity of change and the risks outlined above - would it be better to import the data directly in the DB.  We could create a temporayy table import the data
-and then test the imported information.  Once happy would simply need to delete the existing table and rename the temporary table.  This approach would significantly reduce the operational impact caused by the download and import.
-7) With a data import, we could also spend some time cleaning the data before it was imported too!  Or perhaps this the better approach for the import code, if we chose to continue with this method.
-8) The download says it has current and old unused post codes included.  How many of these are no longer used?  There are 1.8Mish records, do we need them all.  Problem was I couldn't see an obvious flag to signify which were current and which were old.  I did check a hand full of the post codes that had no space - in chase this was the point of difference, but this appeared to be valid on Google maps.
-9) Would a third party service be more appropriate to use? 
+# Personal Note
+Do not ever forget the:
+**Haversine Algorythm** 
+This is great for finding places by distance to another place!!!
+
 
 
