@@ -9,9 +9,9 @@ use App\Livewire\Players\ListView;
 use App\Models\Countries\Country;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Livewire\Livewire;
-use Tests\TestData\PlayerTestData;
 use PHPUnit\Framework\Attributes\Test;
 use Tests\TestCase;
+use Tests\TestData\PlayerTestData;
 
 class PlayerListTest extends TestCase
 {
@@ -39,7 +39,7 @@ class PlayerListTest extends TestCase
                 'Players Search',
                 'Country Filter',
                 'Players Sort',
-                '1', '2', '3', '4', '...', '6'
+                '1', '2', '3', '4', '...', '6',
             ]);
     }
 
@@ -65,7 +65,7 @@ class PlayerListTest extends TestCase
                 'Position', $data['position']->name,
                 'View Details',
             ])
-            ->assertSeeHtmlInOrder(['<a', 'href="', 'players/details/'. $data['player']->id . '"']);
+            ->assertSeeHtmlInOrder(['<a', 'href="', 'players/details/' . $data['player']->id . '"']);
     }
 
     #[Test]
@@ -76,30 +76,30 @@ class PlayerListTest extends TestCase
         Livewire::test(ListView::class)
             ->set('currentPage', 1) // starting page
             ->assertSeeHtmlInOrder([
-                'players/details/'. $data['players'][0]->id,
-                'players/details/'. $data['players'][1]->id,
-                'players/details/'. $data['players'][2]->id,
-                'players/details/'. $data['players'][3]->id,
-                'players/details/'. $data['players'][4]->id,
-                'players/details/'. $data['players'][5]->id,
-                'players/details/'. $data['players'][6]->id,
-                'players/details/'. $data['players'][7]->id,
-                'players/details/'. $data['players'][8]->id,
-                'players/details/'. $data['players'][9]->id,
+                'players/details/' . $data['players'][0]->id,
+                'players/details/' . $data['players'][1]->id,
+                'players/details/' . $data['players'][2]->id,
+                'players/details/' . $data['players'][3]->id,
+                'players/details/' . $data['players'][4]->id,
+                'players/details/' . $data['players'][5]->id,
+                'players/details/' . $data['players'][6]->id,
+                'players/details/' . $data['players'][7]->id,
+                'players/details/' . $data['players'][8]->id,
+                'players/details/' . $data['players'][9]->id,
             ])
             ->dispatch('pagination-update', newPage: 5) // simulate event
             ->assertSet('currentPage', 5)
             ->assertSeeHtmlInOrder([
-                'players/details/'. $data['players'][40]->id,
-                'players/details/'. $data['players'][41]->id,
-                'players/details/'. $data['players'][42]->id,
-                'players/details/'. $data['players'][43]->id,
-                'players/details/'. $data['players'][44]->id,
-                'players/details/'. $data['players'][45]->id,
-                'players/details/'. $data['players'][46]->id,
-                'players/details/'. $data['players'][47]->id,
-                'players/details/'. $data['players'][48]->id,
-                'players/details/'. $data['players'][49]->id,
+                'players/details/' . $data['players'][40]->id,
+                'players/details/' . $data['players'][41]->id,
+                'players/details/' . $data['players'][42]->id,
+                'players/details/' . $data['players'][43]->id,
+                'players/details/' . $data['players'][44]->id,
+                'players/details/' . $data['players'][45]->id,
+                'players/details/' . $data['players'][46]->id,
+                'players/details/' . $data['players'][47]->id,
+                'players/details/' . $data['players'][48]->id,
+                'players/details/' . $data['players'][49]->id,
             ]);
     }
 
@@ -109,7 +109,7 @@ class PlayerListTest extends TestCase
         $data = PlayerTestData::build(10);
         Country::factory()->create([
             'external_country_id' => 2000,
-            'name'                => 'Filter Test Country'
+            'name'                => 'Filter Test Country',
         ]);
         foreach ($data['players'] as $key => $player) {
             if ($key % 2 == 0) {
@@ -121,25 +121,25 @@ class PlayerListTest extends TestCase
         Livewire::test(ListView::class)
             ->assertSet('filterCountryId', 0) // starting value
             ->assertSeeHtmlInOrder([
-                'players/details/'. $data['players'][0]->id,
-                'players/details/'. $data['players'][1]->id,
-                'players/details/'. $data['players'][2]->id,
-                'players/details/'. $data['players'][3]->id,
-                'players/details/'. $data['players'][4]->id,
-                'players/details/'. $data['players'][5]->id,
-                'players/details/'. $data['players'][6]->id,
-                'players/details/'. $data['players'][7]->id,
-                'players/details/'. $data['players'][8]->id,
-                'players/details/'. $data['players'][9]->id,
+                'players/details/' . $data['players'][0]->id,
+                'players/details/' . $data['players'][1]->id,
+                'players/details/' . $data['players'][2]->id,
+                'players/details/' . $data['players'][3]->id,
+                'players/details/' . $data['players'][4]->id,
+                'players/details/' . $data['players'][5]->id,
+                'players/details/' . $data['players'][6]->id,
+                'players/details/' . $data['players'][7]->id,
+                'players/details/' . $data['players'][8]->id,
+                'players/details/' . $data['players'][9]->id,
             ])
             ->dispatch('filter-update', selected: 2000) // simulate event
             ->assertSet('filterCountryId', 2000) // 0 = All 2000 = Filter Test County 1000 = Test Country (they are sorted alphabetically)
             ->assertSeeHtmlInOrder([
-                'players/details/'. $data['players'][0]->id,
-                'players/details/'. $data['players'][2]->id,
-                'players/details/'. $data['players'][4]->id,
-                'players/details/'. $data['players'][6]->id,
-                'players/details/'. $data['players'][8]->id,
+                'players/details/' . $data['players'][0]->id,
+                'players/details/' . $data['players'][2]->id,
+                'players/details/' . $data['players'][4]->id,
+                'players/details/' . $data['players'][6]->id,
+                'players/details/' . $data['players'][8]->id,
             ]);
     }
 
@@ -157,25 +157,25 @@ class PlayerListTest extends TestCase
         Livewire::test(ListView::class)
             ->set('searchTerm', '') // starting value
             ->assertSeeHtmlInOrder([
-                'players/details/'. $data['players'][0]->id,
-                'players/details/'. $data['players'][1]->id,
-                'players/details/'. $data['players'][2]->id,
-                'players/details/'. $data['players'][3]->id,
-                'players/details/'. $data['players'][4]->id,
-                'players/details/'. $data['players'][5]->id,
-                'players/details/'. $data['players'][6]->id,
-                'players/details/'. $data['players'][7]->id,
-                'players/details/'. $data['players'][8]->id,
-                'players/details/'. $data['players'][9]->id,
+                'players/details/' . $data['players'][0]->id,
+                'players/details/' . $data['players'][1]->id,
+                'players/details/' . $data['players'][2]->id,
+                'players/details/' . $data['players'][3]->id,
+                'players/details/' . $data['players'][4]->id,
+                'players/details/' . $data['players'][5]->id,
+                'players/details/' . $data['players'][6]->id,
+                'players/details/' . $data['players'][7]->id,
+                'players/details/' . $data['players'][8]->id,
+                'players/details/' . $data['players'][9]->id,
             ])
             ->dispatch('search-update', searchTerm: 'Filter') // simulate event
             ->assertSet('searchTerm', 'Filter')
             ->assertSeeHtmlInOrder([
-                'players/details/'. $data['players'][0]->id,
-                'players/details/'. $data['players'][2]->id,
-                'players/details/'. $data['players'][4]->id,
-                'players/details/'. $data['players'][6]->id,
-                'players/details/'. $data['players'][8]->id,
+                'players/details/' . $data['players'][0]->id,
+                'players/details/' . $data['players'][2]->id,
+                'players/details/' . $data['players'][4]->id,
+                'players/details/' . $data['players'][6]->id,
+                'players/details/' . $data['players'][8]->id,
             ]);
     }
 
@@ -192,30 +192,30 @@ class PlayerListTest extends TestCase
         Livewire::test(ListView::class)
             ->set('sortId', 0) // starting value
             ->assertSeeHtmlInOrder([
-                'players/details/'. $data['players'][0]->id,
-                'players/details/'. $data['players'][1]->id,
-                'players/details/'. $data['players'][2]->id,
-                'players/details/'. $data['players'][3]->id,
-                'players/details/'. $data['players'][4]->id,
-                'players/details/'. $data['players'][5]->id,
-                'players/details/'. $data['players'][6]->id,
-                'players/details/'. $data['players'][7]->id,
-                'players/details/'. $data['players'][8]->id,
-                'players/details/'. $data['players'][9]->id,
+                'players/details/' . $data['players'][0]->id,
+                'players/details/' . $data['players'][1]->id,
+                'players/details/' . $data['players'][2]->id,
+                'players/details/' . $data['players'][3]->id,
+                'players/details/' . $data['players'][4]->id,
+                'players/details/' . $data['players'][5]->id,
+                'players/details/' . $data['players'][6]->id,
+                'players/details/' . $data['players'][7]->id,
+                'players/details/' . $data['players'][8]->id,
+                'players/details/' . $data['players'][9]->id,
             ])
             ->dispatch('sort-update', selected: 2) // Sort by name desc (Z-A)
             ->assertSet('sortId', 2)
             ->assertSeeHtmlInOrder([
-                'players/details/'. $data['players'][9]->id,
-                'players/details/'. $data['players'][8]->id,
-                'players/details/'. $data['players'][7]->id,
-                'players/details/'. $data['players'][6]->id,
-                'players/details/'. $data['players'][5]->id,
-                'players/details/'. $data['players'][4]->id,
-                'players/details/'. $data['players'][3]->id,
-                'players/details/'. $data['players'][2]->id,
-                'players/details/'. $data['players'][1]->id,
-                'players/details/'. $data['players'][0]->id,
+                'players/details/' . $data['players'][9]->id,
+                'players/details/' . $data['players'][8]->id,
+                'players/details/' . $data['players'][7]->id,
+                'players/details/' . $data['players'][6]->id,
+                'players/details/' . $data['players'][5]->id,
+                'players/details/' . $data['players'][4]->id,
+                'players/details/' . $data['players'][3]->id,
+                'players/details/' . $data['players'][2]->id,
+                'players/details/' . $data['players'][1]->id,
+                'players/details/' . $data['players'][0]->id,
             ]);
     }
 }
