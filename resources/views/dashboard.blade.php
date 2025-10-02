@@ -25,7 +25,7 @@
                                 Send Email
                             </h1>
                             <x:snappy.button-blue
-                                :url="route('emails.send')"
+                                :url="route('emails.contact_email')"
                                 text="Create"
                                 type="button"
                             ></x:snappy.button-blue>
