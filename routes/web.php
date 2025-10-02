@@ -1,6 +1,6 @@
 <?php
 
-use App\Http\Controllers\MattTestController;
+use App\Livewire\Emails\ContactEmailView;
 use App\Livewire\Players\DetailView as PlayersDetailView;
 use App\Livewire\Players\ListView as PlayersListView;
 use Illuminate\Support\Facades\Route;
@@ -10,6 +10,10 @@ Route::redirect('/', 'login');
 
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::view('dashboard', 'dashboard')->name('dashboard');
+
+    Route::prefix('emails')->group(function () {
+        Route::get('contact-email', ContactEmailView::class)->name('emails.contact_email');
+    });
 
     Route::view('profile', 'profile')->name('profile');
 

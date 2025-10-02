@@ -12,12 +12,21 @@
 
                     <div class="grid grid-cols-3">
                         <div class="bg-white border border-gray-300 rounded-md p-4">
-                            <h1 class="text-xl font-bold text-gray-800 mb-5">
+                            <!-- <h1 class="text-xl font-bold text-gray-800 mb-5">
                                 Players List
                             </h1>
                             <x:snappy.button-blue
                                 :url="route('players')"
                                 text="View"
+                                type="button"
+                            ></x:snappy.button-blue> -->
+
+                            <h1 class="text-xl font-bold text-gray-800 mb-5">
+                                Send Email
+                            </h1>
+                            <x:snappy.button-blue
+                                :url="route('emails.send')"
+                                text="Create"
                                 type="button"
                             ></x:snappy.button-blue>
                         </div>
