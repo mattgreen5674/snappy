@@ -86,12 +86,7 @@ Tests\Feature\Views\Emails\ContqactEmailTest;
 1) Build custom reuseable form input components to help us build up form across the project.
 2) Build custom reuseable alert components to help with user feedback.
 3) Separate the front end from the backend ?!?
-
-
-# Personal Note
-Do not ever forget the:
-**Haversine Algorythm** 
-This is great for finding places by distance to another place!!!
+4) Improve tests!
 
 
 
