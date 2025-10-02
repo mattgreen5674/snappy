@@ -16,6 +16,24 @@ class ContactEmailTest extends TestCase
     use RefreshDatabase;
 
     #[Test]
+    public function it_displays_form_correctly()
+    {
+        Livewire::test(ContactEmailView::class)
+            ->assertSet('fromEmail', '')
+            ->assertSet('fromName', '')
+            ->assertSet('comment', '')
+            ->assertSeeTextInOrder([
+                'Contact Email Form',
+                'Your name',
+                'Your email address',
+                'Comment'
+                ])
+            ->assertSeeHtmlInOrder(['<input type="text"', 'wire:model.lazy="fromName"'])
+            ->assertSeeHtmlInOrder(['<input type="text"', 'wire:model.lazy="fromEmail"'])
+            ->assertSeeHtmlInOrder(['<textarea', 'wire:model.lazy="comment"', '<button']);
+    }
+
+    #[Test]
     public function it_requires_all_fields_to_be_valid()
     {
         Livewire::test(ContactEmailView::class)
@@ -24,9 +42,9 @@ class ContactEmailTest extends TestCase
             ->set('comment', '')
             ->call('sendEmail')
             ->assertHasErrors([
-                'fromEmail' => 'required',
-                'fromName'  => 'required',
-                'comment'   => 'required',
+                'fromEmail' => ['The from email field is required.'],
+                'fromName'  => ['The from name field is required.'],
+                'comment'   => ['The comment field is required.'],
             ]);
     }
 
@@ -38,7 +56,7 @@ class ContactEmailTest extends TestCase
             ->set('fromName', 'Test User')
             ->set('comment', 'This is a test')
             ->call('sendEmail')
-            ->assertHasErrors(['fromEmail' => 'email']);
+            ->assertHasErrors(['fromEmail' => ['The from email field must be a valid email address.']]);
     }
 
     #[Test]
@@ -61,15 +79,15 @@ class ContactEmailTest extends TestCase
             'long comment',
         ])->implode('');
 
-        $response = Livewire::test(ContactEmailView::class)
+        Livewire::test(ContactEmailView::class)
             ->set('fromEmail', $longEmail)
             ->set('fromName', $longName)
             ->set('comment', $longComment)
             ->call('sendEmail')
             ->assertHasErrors([
-                'fromEmail' => 'max',
-                'fromName' => 'max',
-                'comment' => 'max',
+                'fromEmail' => ['The from email field must not be greater than 100 characters.'],
+                'fromName'  => ['The from name field must not be greater than 100 characters.'],
+                'comment'   => ['The comment field must not be greater than 500 characters.'],
             ]);
     }
 
