@@ -78,6 +78,7 @@ Check the example user token in the PersonalAccessTokenSeeder.ph for user access
 # Files for review
 App\Livewire\Emails\ContactEmailView;
 App\Mail\ContactMessage;
+Resources\Views\Components\Snappy\Emails\Contact-Email;
 Resources\Views\Livewire\Emails\Contact-Email-View;
 Tests\Feature\Views\Emails\ContqactEmailTest;
 
