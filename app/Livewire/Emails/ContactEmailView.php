@@ -30,6 +30,7 @@ class ContactEmailView extends Component
                 ));
 
             session()->flash('flash', ['message' => 'Send contact email success', 'type' => config('snappy.alert.success')]);
+            $this->dispatch('alert', message : 'Send contact email success', type : 'success');
 
             $this->reset(); // upon success reset form input
 

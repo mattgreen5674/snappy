@@ -16,6 +16,14 @@ class ContactEmailTest extends TestCase
     use RefreshDatabase;
 
     #[Test]
+    public function it_displays_alert()
+    {
+        Livewire::test(ContactEmailView::class)
+            ->call('sendAlert')
+            ->assertSessionHas('flash');
+    }
+
+    #[Test]
     public function it_displays_form_correctly()
     {
         Livewire::test(ContactEmailView::class)
