@@ -23,9 +23,12 @@ class BuildCountriesFilterData
     public function build(): void
     {
         try {
-            $this->countries = Country::get()->mapWithKeys(function ($country) {
-                return [$country->external_country_id => $country->name];
-            })->sort()->prepend('All', 0);
+            $this->countries = collect(Country::get())
+                ->mapWithKeys(function ($country) {
+                    return [$country->external_country_id => $country->name];
+                })
+                ->sort()
+                ->prepend('All', 0); // Eloquent collection needs to be converted to support collection - hence the collect() wrap!
 
         } catch (Exception $e) {
             info($e);
