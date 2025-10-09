@@ -19,6 +19,32 @@
             </div>
         @endif
 
+        <!-- Alert Box -->
+        <div
+            x-data="{ show: false, message: '', type: '' }"
+            x-init="
+                $wire.on('alert', ({ message: msg, type: t }) => {
+                    message = msg;
+                    type = t;
+                    show = true;
+                    setTimeout(() => show = false, 5000);
+                });
+                
+            "
+        >
+            <div 
+                x-show="show" 
+                x-transition 
+                class="mt-4 p-4 rounded shadow text-white bg-green-500 bg-red-500"
+                :class="{
+                    'bg-green-500': type === 'success',
+                    'bg-red-500': type === 'failure'
+                }"
+            >
+                <p x-text="message"></p>
+            </div>
+        </div>
+
         <form wire:submit.prevent="sendEmail" class="space-y-4">
             <div>
                 <label>Your name</label>
